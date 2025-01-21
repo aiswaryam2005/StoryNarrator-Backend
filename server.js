@@ -125,7 +125,7 @@ app.post("/generate-image", async (req, res) => {
    let browser;
    try {
        browser = await puppeteer.launch({
-           executablePath: process.env.CHROME_PATH || '/opt/render/.cache/puppeteer/chrome/linux-130.0.6723.116/chrome',
+           executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/opt/render/.cache/puppeteer/chrome/linux-130.0.6723.116/chrome',
            headless: true,
            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
        });
