@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const puppeteer = require("puppeteer");
 const puppeteer = require("puppeteer-extra");
 const cheerio = require("cheerio");
 const User = require("./models/User");
