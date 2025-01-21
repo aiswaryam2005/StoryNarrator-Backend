@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const puppeteer = require("puppeteer-extra");
+const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
 const User = require("./models/User");
 require("dotenv").config(); // Load environment variables
@@ -121,14 +121,13 @@ app.delete('/delete-story', async (req, res) => {
 // Image Generation Route
 app.post("/generate-image", async (req, res) => {
    const description = req.body.description;
-   const { executablePath } = require('puppeteer');
 
    let browser;
    try {
        browser = await puppeteer.launch({
-           executablePath: executablePath(),
            headless: true,
-           args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+           defaultViewport: null,
+           args: ['--start-maximized'],
        });
 
        const page = await browser.newPage();
