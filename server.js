@@ -125,6 +125,7 @@ app.post("/generate-image", async (req, res) => {
    let browser;
    try {
        browser = await chromium.launch({
+           executablePath: process.env.PLAYWRIGHT_BROWSERS_PATH || '/opt/render/.cache/ms-playwright/chromium-1148/chrome-linux/chrome',
            headless: true,
            args: [
                '--no-sandbox',
