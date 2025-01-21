@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const { chromium } = require("playwright");  // Using Playwright instead of Puppeteer
+const puppeteer = require("puppeteer-core");
 const cheerio = require("cheerio");
 const User = require("./models/User");
 require("dotenv").config(); // Load environment variables
@@ -118,34 +118,43 @@ app.delete('/delete-story', async (req, res) => {
     }
 });
 
-// Image Generation Route (Using Playwright)
+// Image Generation Route
 app.post("/generate-image", async (req, res) => {
    const description = req.body.description;
 
    let browser;
    try {
-       browser = await chromium.launch({
-           executablePath: process.env.PLAYWRIGHT_BROWSERS_PATH + '/chromium-1148/chrome-linux/chrome',
+       browser = await puppeteer.launch({
+           executablePath: '/opt/render/.cache/puppeteer/chrome/linux-130.0.6723.116/chrome-linux64/chrome', // Path to Chromium
            headless: true,
+           defaultViewport: null,
            args: [
-               '--no-sandbox',
-               '--disable-setuid-sandbox',
-               '--disable-dev-shm-usage',
-               '--remote-debugging-port=9222',
-               '--disable-software-rasterizer'
-           ],
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--remote-debugging-port=9222',
+            '--disable-software-rasterizer'
+        ],
        });
 
        const page = await browser.newPage();
        await page.goto("https://deepai.org/machine-learning-model/text2img", {
-           waitUntil: "networkidle",
+           waitUntil: "networkidle2",
            timeout: 60000,
        });
 
-       await page.fill("textarea", description);
+       await page.waitForSelector("textarea", { timeout: 60000 });
+       await page.type("textarea", description, { delay: 0 });
+
        await page.click("#modelSubmitButton");
 
-       await page.waitForSelector(".try-it-result-area img", { timeout: 180000 });
+       await page.waitForFunction(
+           () => {
+               const imgElement = document.querySelector(".try-it-result-area img");
+               return imgElement && imgElement.src !== "https://images.deepai.org/machine-learning-models/337e9a4fd9ff4552ae72c4943aea2b7a/image-gen-loading.svg";
+           },
+           { timeout: 180000 }
+       );
 
        const content = await page.content();
        const $ = cheerio.load(content);

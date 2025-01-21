@@ -19,7 +19,7 @@
     "multer": "^1.4.5-lts.1",
     "pdf-parse": "^1.1.1",
     "pdfjs-dist": "^2.9.359",
-    "playwright": "^1.49.1",
+    "puppeteer-core": "^19.11.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
@@ -30,8 +30,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "postinstall": "npx playwright install --with-deps chromium"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
