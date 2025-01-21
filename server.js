@@ -125,7 +125,7 @@ app.post("/generate-image", async (req, res) => {
    let browser;
    try {
        browser = await puppeteer.launch({
-           executablePath: puppeteer.executablePath(),
+           executablePath: '/usr/bin/google-chrome',
            headless: true,
            defaultViewport: null,
            args: [
