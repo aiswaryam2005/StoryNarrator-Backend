@@ -4,7 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
-const User = require("./src/models/User");
+const User = require("./models/User");
 require("dotenv").config(); // Load environment variables
 
 const app = express();
