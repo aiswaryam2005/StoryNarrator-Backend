@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const puppeteer = require("puppeteer-core");
+const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
 const User = require("./models/User");
 require("dotenv").config(); // Load environment variables
@@ -125,7 +125,7 @@ app.post("/generate-image", async (req, res) => {
    let browser;
    try {
        browser = await puppeteer.launch({
-           executablePath: '/opt/render/.cache/puppeteer/chrome/linux-130.0.6723.116/chrome-linux64/chrome', // Path to Chromium
+           executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(), // Path to Chromium
            headless: true,
            defaultViewport: null,
            args: [
