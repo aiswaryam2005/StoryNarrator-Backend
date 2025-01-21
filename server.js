@@ -125,9 +125,16 @@ app.post("/generate-image", async (req, res) => {
    let browser;
    try {
        browser = await puppeteer.launch({
+           executablePath: puppeteer.executablePath(),
            headless: true,
            defaultViewport: null,
-           args: ['--start-maximized'],
+           args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--remote-debugging-port=9222',
+            '--disable-software-rasterizer'
+          ],
        });
 
        const page = await browser.newPage();
